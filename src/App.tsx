@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { v1 } from 'uuid';
-import './App.css';
-import { Todolist } from './Todolist';
+import React, { useState } from "react";
+import { v1 } from "uuid";
+import "./App.css";
+import { Todolist } from "./Todolist";
 
 export type TaskType = {
   id: string;
@@ -9,17 +9,17 @@ export type TaskType = {
   isDone: boolean;
 };
 
-export type FilterType = 'all' | 'completed' | 'active';
+export type FilterType = "all" | "completed" | "active";
 
 function App() {
   const [tasks, setTasks] = useState<Array<TaskType>>([
-    { id: v1(), title: 'React', isDone: true },
-    { id: v1(), title: 'TS', isDone: true },
-    { id: v1(), title: 'Redux', isDone: false },
-    { id: v1(), title: 'CSS', isDone: true },
-    { id: v1(), title: 'NodeJS', isDone: false },
+    { id: v1(), title: "React", isDone: true },
+    { id: v1(), title: "TS", isDone: true },
+    { id: v1(), title: "Redux", isDone: false },
+    { id: v1(), title: "CSS", isDone: true },
+    { id: v1(), title: "NodeJS", isDone: false }
   ]);
-  const [filter, setFilter] = useState<FilterType>('all');
+  const [filter, setFilter] = useState<FilterType>("all");
   function changeFilter(filter: FilterType) {
     setFilter(filter);
   }
@@ -27,7 +27,7 @@ function App() {
     const newTask: TaskType = {
       id: v1(),
       title,
-      isDone: false,
+      isDone: false
     };
     const newTasks = [newTask, ...tasks];
     setTasks(newTasks);
@@ -38,11 +38,19 @@ function App() {
     setTasks(filteredTasks);
   }
 
+  function changeStatus(taskID: string, isDone: boolean) {
+    let task = tasks.find((t) => t.id === taskID);
+    if (task) {
+      task.isDone = isDone;
+      setTasks([...tasks]);
+    }
+  }
+
   function getFilteredTask() {
     switch (filter) {
-      case 'active':
+      case "active":
         return tasks.filter((t) => t.isDone === false);
-      case 'completed':
+      case "completed":
         return tasks.filter((t) => t.isDone === true);
       default:
         return tasks;
@@ -57,6 +65,8 @@ function App() {
         removeTask={removeTask}
         createNewTask={createNewTask}
         changeFilter={changeFilter}
+        changeStatus={changeStatus}
+        filter={filter}
       />
     </div>
   );
