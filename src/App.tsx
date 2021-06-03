@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { v1 } from 'uuid';
+import { AddItemForm } from './AddItemForm';
 import './App.css';
 import { Todolist } from './Todolist';
 
@@ -26,7 +27,7 @@ function App() {
   const todoList_2 = v1();
 
   const [todolists, setTodolists] = useState<Array<TodolistType>>([
-    { id: todoList_1, title: 'What to lern', filter: 'all' },
+    { id: todoList_1, title: 'What to learn', filter: 'all' },
     { id: todoList_2, title: 'What to buy', filter: 'all' },
   ]);
 
@@ -47,13 +48,19 @@ function App() {
     ],
   });
 
-  //const [filter, setFilter] = useState<FilterType>('all');
   function changeFilter(filter: FilterType, todolistId: string) {
     setTodolists(
       todolists.map((tl) =>
         tl.id === todolistId ? { ...tl, filter: filter } : tl
       )
     );
+  }
+
+  function addTodoList(title: string) {
+    let newTodoListId = v1();
+    let newTodoList: TodolistType = { id: newTodoListId, title, filter: 'all' };
+    setTodolists([newTodoList, ...todolists]);
+    setTasks({ ...tasks, [newTodoListId]: [] });
   }
 
   function removeTodoList(todolistId: string) {
@@ -86,7 +93,24 @@ function App() {
     );
     setTasks(copyTasks);
   }
-
+  function onChangeTodolListTitle(todoListId: string, newTitle: string) {
+    setTodolists(
+      todolists.map((tdl) =>
+        tdl.id === todoListId ? { ...tdl, title: newTitle } : tdl
+      )
+    );
+  }
+  function onChangeTaskTitle(
+    todoListId: string,
+    taskId: string,
+    newTitle: string
+  ) {
+    const copyTasks = { ...tasks };
+    copyTasks[todoListId] = tasks[todoListId].map((task) =>
+      task.id === taskId ? { ...task, title: newTitle } : task
+    );
+    setTasks(copyTasks);
+  }
   function getFilteredTask(tl: TodolistType) {
     switch (tl.filter) {
       case 'active':
@@ -112,11 +136,18 @@ function App() {
         createNewTask={createNewTask}
         changeFilter={changeFilter}
         changeStatus={changeStatus}
+        onChangeTaskTitle={onChangeTaskTitle}
+        onChangeTodolListTitle={onChangeTodolListTitle}
       />
     );
   });
 
-  return <div className="App">{todoListComponents}</div>;
+  return (
+    <div className="App">
+      <AddItemForm addItem={addTodoList} />
+      {todoListComponents}
+    </div>
+  );
 }
 
 export default App;
