@@ -1,6 +1,5 @@
 import {
   todoListsReducer,
-  ActionType,
   RemoveTodoListAC,
   AddTodoListAC,
   ChangeTodoListFilterAC,
@@ -41,7 +40,7 @@ test('correct todolist should be added', () => {
   );
 
   expect(endState.length).toBe(3);
-  expect(endState[2].title).toBe(newTodolistTitle);
+  expect(endState[0].title).toBe(newTodolistTitle);
 });
 
 test('correct todolist should change its name', () => {
@@ -54,12 +53,6 @@ test('correct todolist should change its name', () => {
     { id: todolistId1, title: 'What to learn', filter: 'all' },
     { id: todolistId2, title: 'What to buy', filter: 'all' },
   ];
-
-  // const action: ActionType = {
-  //   type: 'CHANGE-TODOLIST-TITLE',
-  //   todoListID: todolistId2,
-  //   newTitle: newTodolistTitle,
-  // };
 
   const endState = todoListsReducer(
     startState,
@@ -80,12 +73,6 @@ test('correct filter of todolist should be changed', () => {
     { id: todolistId1, title: 'What to learn', filter: 'all' },
     { id: todolistId2, title: 'What to buy', filter: 'all' },
   ];
-
-  // const action: ActionType = {
-  //   type: 'CHANGE-TODOLIST-FILTER',
-  //   todoListID: todolistId2,
-  //   filter: newFilter,
-  // };
 
   const endState = todoListsReducer(
     startState,
