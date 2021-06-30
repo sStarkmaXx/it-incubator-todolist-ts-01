@@ -36,8 +36,25 @@ export type ActionsType =
   | AddTodoListAT
   | RemoveTodoListAT;
 
+const initialState:TasksStateType = {
+  [todoList_1]: [
+    { id: v1(), title: 'React', isDone: true },
+    { id: v1(), title: 'TS', isDone: true },
+    { id: v1(), title: 'Redux', isDone: false },
+    { id: v1(), title: 'CSS', isDone: true },
+    { id: v1(), title: 'NodeJS', isDone: false },
+  ],
+  [todoList_2]: [
+    { id: v1(), title: 'Bread', isDone: true },
+    { id: v1(), title: 'Meat', isDone: true },
+    { id: v1(), title: 'Milk', isDone: false },
+    { id: v1(), title: 'Eggs', isDone: true },
+    { id: v1(), title: 'Tomatos', isDone: false },
+  ],
+}
+
 export const tasksReducer = (
-  state: TasksStateType,
+  state: TasksStateType = initialState,
   action: ActionsType
 ): TasksStateType => {
   switch (action.type) {
@@ -93,7 +110,7 @@ export const tasksReducer = (
       return stateCopy;
     }
     default:
-      throw new Error('I dont understand this type');
+      return state;
   }
 };
 
