@@ -14,6 +14,7 @@ import { v1 } from 'uuid';
 import { AddItemForm } from './AddItemForm';
 import './App.css';
 import { Todolist } from './Todolist';
+import {useDispatch} from "react-redux";
 
 export type TaskType = {
   id: string;
@@ -36,6 +37,8 @@ export type FilterType = 'all' | 'completed' | 'active';
 function App() {
   const todoList_1 = v1();
   const todoList_2 = v1();
+
+  const dispatch = useDispatch();
 
   const [todolists, setTodolists] = useState<Array<TodolistType>>([
     { id: todoList_1, title: 'What to learn', filter: 'all' },
